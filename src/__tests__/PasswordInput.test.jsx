@@ -1,30 +1,53 @@
-import "@testing-library/jest-dom";
-import { render, fireEvent } from "@testing-library/react";
-import PasswordInput from "../components/PasswordInput";
+import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
+import PasswordInput from '../components/PasswordInput';
 
-let container;
+const originalConsoleLog = console.log;
+let securityLogs = [];
 
 beforeEach(() => {
-  container = render(<PasswordInput />).container;
+  securityLogs = [];
+  console.log = vi.fn((message) => {
+    securityLogs.push(message);
+    originalConsoleLog(message);
+  });
 });
 
-test("displays one input", () => {
-  const input = container.querySelector("input");
-  expect(input).toBeInTheDocument();
-  expect(input.tagName).toBe("INPUT");
+afterEach(() => {
+  console.log = originalConsoleLog;
 });
 
-test("displays an input with the right input type", () => {
-  const input = container.querySelector("input");
-  expect(input.type).toBe("password");
-});
+describe('PasswordInput Security Tracking', () => {
+  test('renders password input field with correct attributes', () => {
+    render(<PasswordInput />);
+    const input = screen.getByTestId('password-input');
+    expect(input).toBeInTheDocument();
+    expect(input).toHaveAttribute('type', 'password');
+    expect(input).toHaveAttribute('placeholder', 'Enter your password');
+  });
 
-test("typing in the input triggers console output", () => {
-  console.log = vi.fn();
+  test('tracks password changes and logs security events', () => {
+    const mockOnChange = vi.fn();
+    render(<PasswordInput onPasswordChange={mockOnChange} />);
+    const input = screen.getByTestId('password-input');
+    
+    fireEvent.change(input, { target: { value: 'p' } });
+    fireEvent.change(input, { target: { value: 'pa' } });
+    
+    expect(securityLogs).toContain('Entering password…');
+    expect(securityLogs).toHaveLength(2);
+    expect(mockOnChange).toHaveBeenCalledTimes(2);
+  });
 
-  const input = container.querySelector("input");
-  fireEvent.change(input, { target: { value: "123" } });
+  test('displays character count when typing', () => {
+    render(<PasswordInput />);
+    const input = screen.getByTestId('password-input');
+    fireEvent.change(input, { target: { value: 'test123' } });
+    expect(screen.getByTestId('character-count')).toHaveTextContent('7 characters');
+  });
 
-  expect(console.log).toHaveBeenCalled();
-  expect(console.log.mock.calls[0][0]).toBe("Entering password...");
+  test('does not display character count when empty', () => {
+    render(<PasswordInput />);
+    expect(screen.queryByTestId('character-count')).not.toBeInTheDocument();
+  });
 });

@@ -1,42 +1,259 @@
-#root {
-  max-width: 1280px;
+
+.app-container {
+  max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: #333;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  color: white;
+}
+
+.app-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.app-subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.app-main {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.security-form {
+  margin-bottom: 2rem;
+}
+
+.form-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.form-section h2 {
+  color: #2d3748;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.form-hint {
+  color: #718096;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* Password Input Styles */
+.password-input-wrapper {
+  margin-top: 1rem;
+}
+
+.password-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.password-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.password-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.password-info {
+  margin-top: 0.5rem;
+  min-height: 20px;
+}
+
+.character-count {
+  font-size: 0.85rem;
+  color: #718096;
+  font-weight: 500;
+}
+
+/* Security Indicators */
+.security-indicators {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.indicator {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.indicator-label {
+  font-size: 0.9rem;
+  color: #718096;
+}
+
+.indicator-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.indicator-value.processing {
+  color: #ed8936;
+  animation: pulse 1.5s infinite;
+}
+
+.indicator-value.ready {
+  color: #48bb78;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Submit Button Styles */
+.submit-button-wrapper {
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.submit-button-wrapper.hovering .submit-button {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.submit-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-button:hover:not(.disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.submit-button:active:not(.disabled) {
+  transform: translateY(0);
+}
+
+.submit-button.disabled {
+  background: #cbd5e0;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.button-status {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: #718096;
+  min-height: 20px;
+  transition: color 0.3s ease;
+}
+
+.submit-button-wrapper.hovering .button-status {
+  color: #667eea;
+  font-weight: 500;
+}
+
+/* Security Info Panel */
+.security-info {
+  background: #f0f4f8;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.security-info h3 {
+  color: #2d3748;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.security-info ul {
+  margin: 0;
+  padding-left: 1.5rem;
+  color: #4a5568;
+  line-height: 1.6;
+}
+
+.security-info li {
+  margin-bottom: 0.5rem;
+}
+
+.info-note {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: #718096;
+  font-style: italic;
+  text-align: center;
+}
+
+/* App Footer */
+.app-footer {
+  text-align: center;
+  margin-top: 3rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app-container {
+    padding: 1rem;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .app-main {
+    padding: 1.5rem;
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  
+  .app-header h1 {
+    font-size: 2rem;
   }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+  
+  .security-indicators {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .form-section {
+    padding: 1rem;
+  }
 }

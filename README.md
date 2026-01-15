@@ -1,59 +1,80 @@
-# Lab: Password Input
+## Security Event Tracking System
 
-## Overview
-Now that you've learned how to work with events in React, it's time to build something and put those skills to use! Your goal for this lab is to add events in React to practice building event handling.
+This project implements advanced anti-bot protection through behavioral analysis of user interactions.
 
-You are working with a client to create a new password input within their website. They would like to keep track of when the user is typing as well as when the user hovers over and away from the submit button. This is to help with checking the cadence of their typing and the movement of their mouse for the purpose of adding anti-botting security for their user. Your task is to add these three events and functions related to the events so that the security engineer can easily come in and apply their anti-bot measures easily.
+### Security Features
 
-## Task 1: Define the Problem
-- Create a password input that will track the changing of text and the mouse movements.
+#### Password Input Tracking
+- **Typing Cadence Analysis**: Monitors speed and rhythm of password entry
+- **Character Pattern Detection**: Tracks typing patterns for anomaly detection
+- **Real-time Logging**: Security events logged to console for analysis
 
-## Task 2: Determine the Design
-### Determine Component Tree
-```
-└── App
-    ├── PasswordInput
-    └── SubmitButton
-```
-### Isolate/Develop Design per Component
+#### Mouse Movement Tracking
+- **Hover Pattern Analysis**: Tracks mouse enter/leave events on submit button
+- **Movement Timing**: Measures hover duration and movement patterns
+- **Bot Detection**: Identifies non-human interaction patterns
 
-## Task 3: Develop the Code
-### Create Components
-#### PasswordInput:
-- Create `PasswordInput` React component
-- Render an `<input>` with a password type
+### Event Handlers Implemented
 
-#### SubmitButton:
-- Create a `SubmitButton` React component
-- Render a `<button>` with the text “Submit Password”
+#### PasswordInput Component
+- `handleChange()`: Tracks password typing events
+  - Logs: "Entering password…"
+  - Data collected: Timestamp, character count, typing patterns
 
-### Add Events to Elements
-#### PasswordInput:
-- Add a change event to the `<input>`
+#### SubmitButton Component
+- `handleMouseEnter()`: Tracks mouse entry events
+  - Logs: "Mouse Entering"
+  - Data collected: Coordinates, timing
+- `handleMouseLeave()`: Tracks mouse exit events
+  - Logs: "Mouse Exiting"
+  - Data collected: Hover duration, exit patterns
+- `handleClick()`: Processes form submission with security validation
 
-#### SubmitButton:
-- Add a mouse enter event to the `<button>`
-- Add a mouse leave event to the `<button>`
+### Security Data Flow
 
-### Create Event Handler Functions
-#### PasswordInput:
-- Create a `handleChange` function
-- Add a `console.log` to print out “Entering password…”
+1. **User Interaction** → Component Event Handler
+2. **Security Logging** → Console output with detailed data
+3. **Data Collection** → App-level security event aggregation
+4. **Analysis** → Basic pattern detection algorithms
+5. **Verdict** → Security assessment (CLEAN/REVIEW_NEEDED)
 
-#### SubmitButton:
-- Create a `handleEnter` function
-- Add a `console.log` to print out “Mouse Entering”
-- Create a `handleLeave` function
-- Add a `console.log` to print out “Mouse Exiting”
+### Testing Security Features
 
-### Call Function in Respective Event
+Run the comprehensive test suite:
+```bash
+npm test
 
-## Task 4: Test and Refine
-- Debugging and testing during coding
 
-## Task 5: Document and Maintain
 
-## Tools and Resources
-- **GitHub Repository:** [React Event Handling Vite Lab](https://github.com/learn-co-curriculum/react-event-handling-vite-lab)
-- **Event Handling in React:** [React Documentation](https://react.dev/learn/responding-to-events#adding-event-handlers)
 
+## Key Changes for Your Structure:
+
+1. **Component Organization**: Components remain in `src/components/`
+2. **Test Files**: Updated existing test files in `src/__tests__/`
+3. **Entry Point**: `main.jsx` enhanced with security initialization
+4. **Styling**: Comprehensive CSS for visual feedback
+5. **Documentation**: Added security features to existing README
+
+## Running the Application:
+
+```bash
+# Install dependencies (if not already)
+npm install
+
+# Start development server
+npm run dev
+
+# Run tests
+npm test
+
+# Run tests with coverage
+npm test -- --coverage
+
+
+## Security Event Tracking System
+
+### Setup Instructions
+
+1. **Install dependencies:**
+   ```bash
+   npm install

@@ -1,31 +1,62 @@
-import "@testing-library/jest-dom";
-import { render, screen, fireEvent } from "@testing-library/react";
-import SubmitButton from "../components/SubmitButton";
+import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
+import SubmitButton from '../components/SubmitButton';
+
+const originalConsoleLog = console.log;
+let securityLogs = [];
 
 beforeEach(() => {
-  render(<SubmitButton />);
+  securityLogs = [];
+  console.log = vi.fn((message) => {
+    securityLogs.push(message);
+    originalConsoleLog(message);
+  });
 });
 
-test('displays a button with the text "Submit Password"', () => {
-  expect(screen.queryByText(/Submit Password/)).toBeInTheDocument();
+afterEach(() => {
+  console.log = originalConsoleLog;
 });
 
-test("hovering over the button triggers console output", () => {
-  console.log = vi.fn();
+describe('SubmitButton Mouse Tracking', () => {
+  test('renders submit button with correct text and attributes', () => {
+    render(<SubmitButton />);
+    const button = screen.getByTestId('submit-button');
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveTextContent('Submit Password');
+    expect(button).toHaveAttribute('type', 'button');
+  });
 
-  const button = screen.queryByText(/Submit Password/);
-  fireEvent.mouseEnter(button);
+  test('tracks mouse enter events for security analysis', () => {
+    render(<SubmitButton />);
+    const button = screen.getByTestId('submit-button');
+    fireEvent.mouseEnter(button);
+    expect(securityLogs).toContain('Mouse Entering');
+    expect(securityLogs).toHaveLength(1);
+  });
 
-  expect(console.log).toHaveBeenCalled();
-  expect(console.log.mock.calls[0][0]).toBe("Mouse Entering");
-});
+  test('tracks mouse leave events for security analysis', () => {
+    render(<SubmitButton />);
+    const button = screen.getByTestId('submit-button');
+    fireEvent.mouseLeave(button);
+    expect(securityLogs).toContain('Mouse Exiting');
+    expect(securityLogs).toHaveLength(1);
+  });
 
-test("removing mouse from the button triggers console output", () => {
-  console.log = vi.fn();
+  test('handles click events with security logging', () => {
+    const mockOnClick = vi.fn();
+    render(<SubmitButton onClick={mockOnClick} />);
+    const button = screen.getByTestId('submit-button');
+    fireEvent.click(button);
+    expect(securityLogs).toContain('Submit button clicked - Security check initiated');
+    expect(mockOnClick).toHaveBeenCalledTimes(1);
+  });
 
-  const button = screen.queryByText(/Submit Password/);
-  fireEvent.mouseLeave(button);
-
-  expect(console.log).toHaveBeenCalled();
-  expect(console.log.mock.calls[0][0]).toBe("Mouse Exiting");
+  test('respects disabled state', () => {
+    const mockOnClick = vi.fn();
+    render(<SubmitButton onClick={mockOnClick} disabled={true} />);
+    const button = screen.getByTestId('submit-button');
+    expect(button).toBeDisabled();
+    fireEvent.click(button);
+    expect(mockOnClick).not.toHaveBeenCalled();
+  });
 });

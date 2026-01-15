@@ -1,3 +1,4 @@
+cat > src/components/SubmitButton.jsx << 'EOF'
 import { useState } from 'react';
 
 const SubmitButton = ({ onClick, disabled = false }) => {
@@ -42,3 +43,4 @@ const SubmitButton = ({ onClick, disabled = false }) => {
 };
 
 export default SubmitButton;
+EOF
